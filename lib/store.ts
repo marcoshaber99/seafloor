@@ -11,7 +11,11 @@ export const useStore = create<StoreState>((set) => ({
   binaries: new Map(),
   indices: new Map(),
 
-  setYear: (year) => set({ year }),
+  setYear: (year) =>
+    set((s) => ({
+      year,
+      colorMode: year < 2024 && s.colorMode === 'ets' ? 'co2' : s.colorMode,
+    })),
   setColorMode: (mode) => set({ colorMode: mode }),
   setFilters: (partial) =>
     set((s) => ({
