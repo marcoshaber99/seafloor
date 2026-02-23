@@ -32,6 +32,7 @@ Interactive 3D globe visualizing six years of EU shipping emissions data (THETIS
 ## Rules
 
 - Read `docs/data.md` before working with THETIS-MRV data or CII calculations.
+- Read `docs/ARCHITECTURE.md` before making structural or rendering changes.
 - The R3F Canvas MUST be client-only. Use `dynamic(() => import(...), { ssr: false })`.
 - Data layers use InstancedMesh with custom vertex shaders for performance. Never create individual Three.js objects per vessel.
 - Serve pre-processed binary data (Float32Array buffers) to the client, not raw JSON.
