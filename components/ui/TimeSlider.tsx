@@ -57,7 +57,7 @@ export function TimeSlider() {
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-8 z-50 flex justify-center">
       <div
-        className="pointer-events-auto flex items-center rounded-2xl border border-white/10 bg-black/60 px-3 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
+        className="pointer-events-auto flex items-center rounded-2xl border border-white/[0.08] bg-white/[0.06] px-3 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
         role="slider"
         aria-label="Year selector"
         aria-valuemin={YEAR_RANGE[0]}
