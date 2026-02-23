@@ -22,12 +22,14 @@ export const SHIP_TYPES = [
   'General cargo ship',
   'LNG carrier',
   'Oil tanker',
+  'Other ship types',
+  'Other ship types (Offshore)',
   'Passenger ship',
+  'Passenger ship (Cruise Passenger ship)',
   'Refrigerated cargo carrier',
   'Ro-pax ship',
   'Ro-ro ship',
   'Vehicle carrier',
-  'Other',
 ] as const
 
 export const BINARY_FIELDS = {

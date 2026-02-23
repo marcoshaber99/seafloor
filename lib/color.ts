@@ -71,12 +71,14 @@ const SHIP_TYPE_COLORS: [number, number, number][] = [
   [0.7, 0.7, 0.2],   // 6  General cargo — yellow
   [0.3, 0.5, 1.0],   // 7  LNG carrier — blue
   [1.0, 0.3, 0.2],   // 8  Oil tanker — red
-  [0.9, 0.8, 0.3],   // 9  Passenger ship — gold
-  [0.5, 0.9, 0.9],   // 10 Refrigerated cargo — teal
-  [0.8, 0.5, 0.3],   // 11 Ro-pax — brown
-  [0.6, 0.6, 0.9],   // 12 Ro-ro — lavender
-  [0.3, 0.8, 0.8],   // 13 Vehicle carrier — aqua
-  [0.5, 0.5, 0.5],   // 14 Other — gray
+  [0.5, 0.5, 0.5],   // 9  Other ship types — gray
+  [0.45, 0.45, 0.55], // 10 Other ship types (Offshore) — slate
+  [0.9, 0.8, 0.3],   // 11 Passenger ship — gold
+  [1.0, 0.7, 0.3],   // 12 Passenger ship (Cruise) — amber
+  [0.5, 0.9, 0.9],   // 13 Refrigerated cargo — teal
+  [0.8, 0.5, 0.3],   // 14 Ro-pax — brown
+  [0.6, 0.6, 0.9],   // 15 Ro-ro — lavender
+  [0.3, 0.8, 0.8],   // 16 Vehicle carrier — aqua
 ]
 
 export function co2ToColor(

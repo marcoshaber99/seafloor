@@ -6,7 +6,7 @@
     "dev": "bun --bun next dev --turbopack",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

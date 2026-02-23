@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { StoreState, VesselIndex } from './types'
+import type { StoreState } from './types'
 import { DEFAULT_YEAR } from './constants'
 
 export const useStore = create<StoreState>((set) => ({

@@ -32,15 +32,12 @@ export function VesselLayer() {
     [],
   )
 
-  const buffers = useMemo(
-    () => ({
-      instancePosition: new Float32Array(MAX_VESSELS * 3),
-      instanceColor: new Float32Array(MAX_VESSELS * 3),
-      instanceScale: new Float32Array(MAX_VESSELS),
-      instanceOpacity: new Float32Array(MAX_VESSELS),
-    }),
-    [],
-  )
+  const buffersRef = useRef({
+    instancePosition: new Float32Array(MAX_VESSELS * 3),
+    instanceColor: new Float32Array(MAX_VESSELS * 3),
+    instanceScale: new Float32Array(MAX_VESSELS),
+    instanceOpacity: new Float32Array(MAX_VESSELS),
+  })
 
   useEffect(() => {
     if (useStore.getState().binaries.has(year)) return
@@ -53,6 +50,7 @@ export function VesselLayer() {
   useEffect(() => {
     if (!binary || !meshRef.current) return
 
+    const buffers = buffersRef.current
     const count = binary.length / FIELDS_PER_VESSEL
     const pos = new THREE.Vector3()
     let visible = 0
@@ -105,7 +103,7 @@ export function VesselLayer() {
     setAttr('instanceColor', buffers.instanceColor, 3)
     setAttr('instanceScale', buffers.instanceScale, 1)
     setAttr('instanceOpacity', buffers.instanceOpacity, 1)
-  }, [binary, colorMode, filters, buffers])
+  }, [binary, colorMode, filters])
 
   useFrame(({ clock }) => {
     if (materialRef.current) {
