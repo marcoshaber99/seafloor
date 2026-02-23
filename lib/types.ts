@@ -36,6 +36,7 @@ export interface StoreState {
   filters: Filters
   hoveredIndex: number
   selectedIndex: number
+  selectedCompany: string | null
   binaries: Map<number, Float32Array>
   indices: Map<number, VesselIndex>
 
@@ -44,6 +45,7 @@ export interface StoreState {
   setFilters: (filters: Partial<Filters>) => void
   setHovered: (index: number) => void
   setSelected: (index: number) => void
+  setSelectedCompany: (company: string | null) => void
   setBinary: (year: number, buffer: Float32Array) => void
   setIndex: (year: number, index: VesselIndex) => void
 }

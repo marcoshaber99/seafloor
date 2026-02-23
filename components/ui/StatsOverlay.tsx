@@ -55,7 +55,18 @@ function formatEUR(eur: number): string {
 export function StatsOverlay() {
   const year = useStore((s) => s.year)
   const binary = useStore((s) => s.binaries.get(s.year))
+  const index = useStore((s) => s.indices.get(s.year))
   const filters = useStore((s) => s.filters)
+  const selectedCompany = useStore((s) => s.selectedCompany)
+
+  const companyIndices = useMemo(() => {
+    if (!selectedCompany || !index) return null
+    const set = new Set<number>()
+    for (let i = 0; i < index.vessels.length; i++) {
+      if (index.vessels[i].company_name === selectedCompany) set.add(i)
+    }
+    return set
+  }, [selectedCompany, index])
 
   const stats = useMemo(() => {
     if (!binary) return null
@@ -73,13 +84,18 @@ export function StatsOverlay() {
       if (filters.shipTypes.size > 0 && !filters.shipTypes.has(shipTypeId)) continue
       if (filters.flagIsos.size > 0 && !filters.flagIsos.has(flagIsoId)) continue
 
+      if (companyIndices) {
+        const vesselIdx = binary[offset + BINARY_FIELDS.VESSEL_INDEX]
+        if (!companyIndices.has(vesselIdx)) continue
+      }
+
       vessels++
       co2 += binary[offset + BINARY_FIELDS.CO2_TOTAL]
       etsCost += binary[offset + BINARY_FIELDS.ETS_COST]
     }
 
     return { vessels, co2, etsCost }
-  }, [binary, filters])
+  }, [binary, filters, companyIndices])
 
   if (!stats) return null
 

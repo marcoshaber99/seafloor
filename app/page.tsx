@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic'
 import { TimeSlider } from '@/components/ui/TimeSlider'
 import { StatsOverlay } from '@/components/ui/StatsOverlay'
+import { CompanySearch } from '@/components/ui/CompanySearch'
 
 const GlobeScene = dynamic(() => import('@/components/globe/GlobeScene'), {
   ssr: false,
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-black">
       <GlobeScene />
+      <CompanySearch />
       <StatsOverlay />
       <TimeSlider />
     </main>

@@ -8,6 +8,7 @@ export const useStore = create<StoreState>((set) => ({
   filters: { shipTypes: new Set(), flagIsos: new Set() },
   hoveredIndex: -1,
   selectedIndex: -1,
+  selectedCompany: null,
   binaries: new Map(),
   indices: new Map(),
 
@@ -26,6 +27,7 @@ export const useStore = create<StoreState>((set) => ({
     })),
   setHovered: (index) => set({ hoveredIndex: index }),
   setSelected: (index) => set({ selectedIndex: index }),
+  setSelectedCompany: (company) => set({ selectedCompany: company }),
   setBinary: (year, buffer) =>
     set((s) => {
       const next = new Map(s.binaries)
