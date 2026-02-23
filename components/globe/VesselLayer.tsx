@@ -18,7 +18,9 @@ export function VesselLayer() {
   const year = useStore((s) => s.year)
   const colorMode = useStore((s) => s.colorMode)
   const filters = useStore((s) => s.filters)
+  const selectedCompany = useStore((s) => s.selectedCompany)
   const binary = useStore((s) => s.binaries.get(s.year))
+  const index = useStore((s) => s.indices.get(s.year))
   const setBinary = useStore((s) => s.setBinary)
   const setIndex = useStore((s) => s.setIndex)
 
@@ -46,6 +48,15 @@ export function VesselLayer() {
       setIndex(year, index)
     })
   }, [year, setBinary, setIndex])
+
+  const companyIndices = useMemo(() => {
+    if (!selectedCompany || !index) return null
+    const set = new Set<number>()
+    for (let i = 0; i < index.vessels.length; i++) {
+      if (index.vessels[i].company_name === selectedCompany) set.add(i)
+    }
+    return set
+  }, [selectedCompany, index])
 
   useEffect(() => {
     if (!binary || !meshRef.current) return
@@ -80,7 +91,13 @@ export function VesselLayer() {
 
       const co2 = binary[offset + BINARY_FIELDS.CO2_TOTAL]
       buffers.instanceScale[visible] = Math.log10(Math.max(co2, 1)) / 5.5
-      buffers.instanceOpacity[visible] = 1.0
+
+      if (companyIndices) {
+        const vesselIdx = binary[offset + BINARY_FIELDS.VESSEL_INDEX]
+        buffers.instanceOpacity[visible] = companyIndices.has(vesselIdx) ? 1.0 : 0.2
+      } else {
+        buffers.instanceOpacity[visible] = 1.0
+      }
 
       visible++
     }
@@ -103,7 +120,7 @@ export function VesselLayer() {
     setAttr('instanceColor', buffers.instanceColor, 3)
     setAttr('instanceScale', buffers.instanceScale, 1)
     setAttr('instanceOpacity', buffers.instanceOpacity, 1)
-  }, [binary, colorMode, filters])
+  }, [binary, colorMode, filters, companyIndices])
 
   useFrame(({ clock }) => {
     if (materialRef.current) {
