@@ -16,8 +16,8 @@ export default function GlobeScene() {
       gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
     >
       <color attach="background" args={['#000008']} />
-      <ambientLight intensity={1.0} />
-      <directionalLight position={[100, 100, 100]} intensity={1.0} />
+      <ambientLight intensity={1.8} />
+      <directionalLight position={[100, 100, 100]} intensity={1.3} />
 
       <Suspense fallback={null}>
         <GlobeCore />

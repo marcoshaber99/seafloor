@@ -12,5 +12,5 @@ void main() {
   float alpha = smoothstep(1.0, 0.4, dist) * vOpacity;
 
   // Emissive output — values > 1.0 drive bloom
-  gl_FragColor = vec4(vColor * 1.5, alpha);
+  gl_FragColor = vec4(vColor * 1.15, alpha);
 }
