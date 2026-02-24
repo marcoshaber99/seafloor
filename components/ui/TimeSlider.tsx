@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { RotateCw, Square } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { usePrefetchYears } from '@/lib/use-prefetch'
 import { YEAR_RANGE } from '@/lib/constants'
@@ -100,54 +101,52 @@ export function TimeSlider() {
           }`}
           aria-label={autoRotate ? 'Stop rotation' : 'Start rotation'}
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M13.5 8A5.5 5.5 0 1 1 5 3.2"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-            <path d="M5.5 0.5L5 3.5L8 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          {autoRotate ? (
+            <RotateCw size={14} strokeWidth={2} />
+          ) : (
+            <Square size={8} strokeWidth={0} fill="currentColor" />
+          )}
         </button>
 
         {/* Divider */}
         <div className="mr-3 h-5 w-px bg-white/10" />
 
         {/* Year buttons */}
-        {YEARS.map((y) => {
-          const isActive = y === year
-          const isLoaded = binaries.has(y)
+        <div className="flex items-center gap-1">
+          {YEARS.map((y) => {
+            const isActive = y === year
+            const isLoaded = binaries.has(y)
 
-          return (
-            <button
-              key={y}
-              onClick={() => setYear(y)}
-              className={`flex flex-col items-center gap-1.5 px-4 py-1.5 rounded-lg transition-all duration-200 ${
-                isActive
-                  ? 'bg-white/10 text-white'
-                  : 'text-white/30 hover:text-white/60 hover:bg-white/5'
-              }`}
-            >
-              <span
-                className={`text-sm tabular-nums tracking-wide ${
-                  isActive ? 'font-semibold' : 'font-normal'
+            return (
+              <button
+                key={y}
+                onClick={() => setYear(y)}
+                className={`flex flex-col items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/30 hover:text-white/60 hover:bg-white/5'
                 }`}
               >
-                {y}
-              </span>
-              <span className="flex h-1 items-center justify-center">
-                {isActive ? (
-                  <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.5)]" />
-                ) : isLoaded ? (
-                  <span className="h-1 w-1 rounded-full bg-white/20" />
-                ) : (
-                  <span className="h-1 w-1 animate-pulse rounded-full bg-white/10" />
-                )}
-              </span>
-            </button>
-          )
-        })}
+                <span
+                  className={`text-sm tabular-nums tracking-wide ${
+                    isActive ? 'font-semibold' : 'font-normal'
+                  }`}
+                >
+                  {y}
+                </span>
+                <span className="flex h-1 items-center justify-center">
+                  {isActive ? (
+                    <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.5)]" />
+                  ) : isLoaded ? (
+                    <span className="h-1 w-1 rounded-full bg-white/20" />
+                  ) : (
+                    <span className="h-1 w-1 animate-pulse rounded-full bg-white/10" />
+                  )}
+                </span>
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
