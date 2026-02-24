@@ -208,6 +208,20 @@ export function VesselLayer() {
     [binary],
   )
 
+  const handleClick = useCallback(
+    (e: ThreeEvent<MouseEvent>) => {
+      e.stopPropagation()
+      const idx = e.intersections[0]?.instanceId ?? -1
+      if (idx >= 0 && binary) {
+        const binaryIdx = visibleMapRef.current[idx]
+        const vesselIndex =
+          binary[binaryIdx * FIELDS_PER_VESSEL + BINARY_FIELDS.VESSEL_INDEX]
+        useStore.getState().setSelected(vesselIndex)
+      }
+    },
+    [binary],
+  )
+
   const handlePointerOut = useCallback(() => {
     prevHoveredRef.current = -1
     if (materialRef.current) {
@@ -231,6 +245,7 @@ export function VesselLayer() {
       frustumCulled={false}
       onPointerMove={handlePointerMove}
       onPointerOut={handlePointerOut}
+      onClick={handleClick}
     >
       <shaderMaterial
         ref={materialRef}

@@ -6,6 +6,7 @@ import { GlobeCore } from './GlobeCore'
 import { VesselLayer } from './VesselLayer'
 import { CameraController } from './CameraController'
 import { PostProcessing } from './PostProcessing'
+import { useStore } from '@/lib/store'
 
 export default function GlobeScene() {
   return (
@@ -14,6 +15,7 @@ export default function GlobeScene() {
       dpr={[1, 2]}
       flat
       gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+      onPointerMissed={() => useStore.getState().setSelected(-1)}
     >
       <color attach="background" args={['#000008']} />
       <ambientLight intensity={1.8} />
