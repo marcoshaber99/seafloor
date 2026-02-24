@@ -83,6 +83,7 @@ export function VesselLayer() {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
+      uCamDist: { value: 300 },
       uHoveredIndex: { value: -1 },
     }),
     [],
@@ -216,9 +217,10 @@ export function VesselLayer() {
     document.body.style.cursor = 'auto'
   }, [])
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, camera }) => {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
+      materialRef.current.uniforms.uCamDist.value = camera.position.length()
     }
   })
 

@@ -4,6 +4,7 @@ attribute float instanceScale;
 attribute float instanceOpacity;
 
 uniform float uTime;
+uniform float uCamDist;
 uniform int uHoveredIndex;
 
 varying vec3 vColor;
@@ -12,6 +13,10 @@ varying vec2 vUv;
 
 void main() {
   float scale = instanceScale * instanceOpacity;
+
+  // Zoom-aware scaling: shrink points when camera is close
+  float zoom = smoothstep(120.0, 400.0, uCamDist);
+  scale *= mix(0.35, 1.0, zoom);
 
   // Gentle pulse — each instance offset by its ID for variation
   float pulse = 1.0 + 0.05 * sin(uTime * 2.0 + float(gl_InstanceID) * 0.37);

@@ -1,3 +1,5 @@
+uniform float uCamDist;
+
 varying vec3 vColor;
 varying float vOpacity;
 varying vec2 vUv;
@@ -9,8 +11,15 @@ void main() {
   float dist = length(vUv - 0.5) * 2.0;
   if (dist > 1.0) discard;
 
-  float alpha = smoothstep(1.0, 0.4, dist) * vOpacity;
+  // Zoom factor: 0 when close (120), 1 when far (400+)
+  float zoom = smoothstep(120.0, 400.0, uCamDist);
 
-  // Emissive output — values > 1.0 drive bloom
-  gl_FragColor = vec4(vColor * 1.15, alpha);
+  // Sharper edge when close, softer glow when far
+  float edge = mix(0.75, 0.35, zoom);
+  float alpha = smoothstep(1.0, edge, dist) * vOpacity;
+
+  // Less emissive when close — avoids bloom blowout in dense clusters
+  float emissive = mix(0.85, 1.2, zoom);
+
+  gl_FragColor = vec4(vColor * emissive, alpha);
 }
