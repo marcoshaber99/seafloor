@@ -110,11 +110,12 @@ export function VesselCard() {
 
     let x = base.x + offset
     let y = base.y - ch - offset
+    const bottomClear = 100 // clear the TimeSlider
 
     if (x + cw > vw) x = base.x - cw - offset
     if (y < 0) y = base.y + offset
     if (x < 0) x = offset
-    if (y + ch > vh) y = vh - ch - offset
+    if (y + ch > vh - bottomClear) y = vh - ch - bottomClear
 
     return { x, y }
   }, [isPinned, pinnedPos, cardPos])
@@ -128,16 +129,20 @@ export function VesselCard() {
   return (
     <div
       ref={cardRef}
-      className="pointer-events-auto fixed z-50 min-w-[220px] max-w-[300px] rounded-xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+      className="pointer-events-auto fixed z-50 min-w-[220px] max-w-[320px] rounded-xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
       style={{
         left: clampedPos.x,
         top: clampedPos.y,
         pointerEvents: isPinned ? 'auto' : 'none',
       }}
     >
-      <div className="flex items-baseline gap-3">
-        <span className="min-w-0 shrink text-sm font-medium text-white">{meta.name}</span>
-        <span className="ml-auto shrink-0 text-xs tabular-nums text-white/40">{meta.imo}</span>
+      <div className="flex items-start gap-3">
+        <div className="min-w-0 shrink">
+          <div className="text-[15px] font-semibold leading-snug text-white">{meta.name}</div>
+        </div>
+        <span className="ml-auto mt-0.5 shrink-0 text-[11px] tabular-nums text-white/30">
+          IMO {meta.imo}
+        </span>
         {isPinned && (
           <button
             onClick={dismiss}
@@ -151,8 +156,12 @@ export function VesselCard() {
         )}
       </div>
 
-      <div className="mt-0.5 text-xs text-white/50">{meta.type}</div>
-      <div className="text-xs text-white/50">{meta.flag_country}</div>
+      {meta.company_name && (
+        <div className="mt-1 truncate text-xs text-white/50">{meta.company_name}</div>
+      )}
+      <div className="mt-0.5 text-xs text-white/40">
+        {meta.type} · {meta.flag_country}
+      </div>
 
       {co2Total !== null && (
         <>
