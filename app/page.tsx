@@ -5,6 +5,7 @@ import { TimeSlider } from '@/components/ui/TimeSlider'
 import { StatsOverlay } from '@/components/ui/StatsOverlay'
 import { CompanySearch } from '@/components/ui/CompanySearch'
 import { VesselCard } from '@/components/ui/VesselCard'
+import { ColorLegend } from '@/components/ui/ColorLegend'
 
 const GlobeScene = dynamic(() => import('@/components/globe/GlobeScene'), {
   ssr: false,
@@ -18,6 +19,7 @@ export default function Home() {
       <CompanySearch />
       <StatsOverlay />
       <VesselCard />
+      <ColorLegend />
       <TimeSlider />
     </main>
   )

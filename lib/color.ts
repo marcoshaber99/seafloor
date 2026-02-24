@@ -15,7 +15,7 @@ const CO2_BREAKPOINTS = [
   { co2: 125000, t: 1.0 },   // max
 ]
 
-const CO2_COLORS = [
+export const CO2_COLORS = [
   { t: 0.0,  r: 0.15, g: 0.25, b: 0.65 }, // deep blue — lowest emitters
   { t: 0.15, r: 0.10, g: 0.50, b: 0.80 }, // blue
   { t: 0.28, r: 0.10, g: 0.70, b: 0.65 }, // teal
@@ -61,7 +61,7 @@ function co2Ramp(co2: number): [number, number, number] {
   return lerpColors(co2ToT(co2), CO2_COLORS)
 }
 
-const SHIP_TYPE_COLORS: [number, number, number][] = [
+export const SHIP_TYPE_COLORS: [number, number, number][] = [
   [0.9, 0.4, 0.1],   // 0  Bulk carrier — orange
   [0.2, 0.7, 0.9],   // 1  Chemical tanker — cyan
   [0.6, 0.3, 0.8],   // 2  Combination carrier — purple
