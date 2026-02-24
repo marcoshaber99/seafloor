@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo, useEffect } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useRef, useMemo, useEffect, useCallback } from 'react'
+import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useStore } from '@/lib/store'
 import { loadYear } from '@/lib/data-loader'
@@ -11,9 +11,63 @@ import { co2ToColor } from '@/lib/color'
 import vertexShader from '@/shaders/vessel.vert.glsl'
 import fragmentShader from '@/shaders/vessel.frag.glsl'
 
+const _v = new THREE.Vector3()
+
+function vesselRaycast(
+  this: THREE.InstancedMesh,
+  raycaster: THREE.Raycaster,
+  intersects: THREE.Intersection[],
+) {
+  const posAttr = this.geometry.getAttribute(
+    'instancePosition',
+  ) as THREE.InstancedBufferAttribute | undefined
+  if (!posAttr) return
+
+  const pos = posAttr.array as Float32Array
+  const count = this.count
+  const { ray } = raycaster
+  const camPos = ray.origin
+
+  // Scale threshold with camera distance so hover zone feels consistent
+  const threshold = 2.0 * (camPos.length() / 300)
+
+  let bestDist = Infinity
+  let bestIdx = -1
+
+  for (let i = 0; i < count; i++) {
+    _v.set(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2])
+
+    // Skip vessels on the far side of the globe
+    if (camPos.dot(_v) < 0) continue
+
+    const d = ray.distanceToPoint(_v)
+    if (d < threshold && d < bestDist) {
+      bestDist = d
+      bestIdx = i
+    }
+  }
+
+  if (bestIdx !== -1) {
+    _v.set(pos[bestIdx * 3], pos[bestIdx * 3 + 1], pos[bestIdx * 3 + 2])
+    const point = new THREE.Vector3()
+    ray.closestPointToPoint(_v, point)
+
+    intersects.push({
+      distance: camPos.distanceTo(point),
+      point,
+      object: this,
+      face: null,
+      faceIndex: undefined,
+      instanceId: bestIdx,
+    } as THREE.Intersection)
+  }
+}
+
 export function VesselLayer() {
   const meshRef = useRef<THREE.InstancedMesh>(null!)
   const materialRef = useRef<THREE.ShaderMaterial>(null!)
+  const visibleMapRef = useRef(new Int32Array(MAX_VESSELS))
+  const prevHoveredRef = useRef(-1)
 
   const year = useStore((s) => s.year)
   const colorMode = useStore((s) => s.colorMode)
@@ -42,6 +96,10 @@ export function VesselLayer() {
   })
 
   useEffect(() => {
+    if (meshRef.current) meshRef.current.raycast = vesselRaycast
+  }, [])
+
+  useEffect(() => {
     if (useStore.getState().binaries.has(year)) return
     loadYear(year).then(({ buffer, index }) => {
       setBinary(year, buffer)
@@ -62,6 +120,7 @@ export function VesselLayer() {
     if (!binary || !meshRef.current) return
 
     const buffers = buffersRef.current
+    const map = visibleMapRef.current
     const count = binary.length / FIELDS_PER_VESSEL
     const pos = new THREE.Vector3()
     let visible = 0
@@ -99,6 +158,7 @@ export function VesselLayer() {
         buffers.instanceOpacity[visible] = 1.0
       }
 
+      map[visible] = i
       visible++
     }
 
@@ -122,6 +182,40 @@ export function VesselLayer() {
     setAttr('instanceOpacity', buffers.instanceOpacity, 1)
   }, [binary, colorMode, filters, companyIndices])
 
+  const handlePointerMove = useCallback(
+    (e: ThreeEvent<PointerEvent>) => {
+      e.stopPropagation()
+      const idx = e.intersections[0]?.instanceId ?? -1
+      if (idx === prevHoveredRef.current) return
+      prevHoveredRef.current = idx
+
+      if (materialRef.current) {
+        materialRef.current.uniforms.uHoveredIndex.value = idx
+      }
+
+      if (idx >= 0 && binary) {
+        const binaryIdx = visibleMapRef.current[idx]
+        const vesselIndex =
+          binary[binaryIdx * FIELDS_PER_VESSEL + BINARY_FIELDS.VESSEL_INDEX]
+        useStore.getState().setHovered(vesselIndex)
+      } else {
+        useStore.getState().setHovered(-1)
+      }
+
+      document.body.style.cursor = idx >= 0 ? 'pointer' : 'auto'
+    },
+    [binary],
+  )
+
+  const handlePointerOut = useCallback(() => {
+    prevHoveredRef.current = -1
+    if (materialRef.current) {
+      materialRef.current.uniforms.uHoveredIndex.value = -1
+    }
+    useStore.getState().setHovered(-1)
+    document.body.style.cursor = 'auto'
+  }, [])
+
   useFrame(({ clock }) => {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
@@ -129,7 +223,13 @@ export function VesselLayer() {
   })
 
   return (
-    <instancedMesh ref={meshRef} args={[geometry, undefined, MAX_VESSELS]} frustumCulled={false}>
+    <instancedMesh
+      ref={meshRef}
+      args={[geometry, undefined, MAX_VESSELS]}
+      frustumCulled={false}
+      onPointerMove={handlePointerMove}
+      onPointerOut={handlePointerOut}
+    >
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}

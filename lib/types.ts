@@ -36,10 +36,12 @@ export interface StoreState {
   filters: Filters
   hoveredIndex: number
   selectedIndex: number
+  autoRotate: boolean
   selectedCompany: string | null
   binaries: Map<number, Float32Array>
   indices: Map<number, VesselIndex>
 
+  setAutoRotate: (on: boolean) => void
   setYear: (year: number) => void
   setColorMode: (mode: ColorMode) => void
   setFilters: (filters: Partial<Filters>) => void

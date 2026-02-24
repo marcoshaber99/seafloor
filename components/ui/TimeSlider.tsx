@@ -16,6 +16,8 @@ export function TimeSlider() {
   const year = useStore((s) => s.year)
   const setYear = useStore((s) => s.setYear)
   const binaries = useStore((s) => s.binaries)
+  const autoRotate = useStore((s) => s.autoRotate)
+  const setAutoRotate = useStore((s) => s.setAutoRotate)
   const [playing, setPlaying] = useState(false)
 
   usePrefetchYears()
@@ -69,7 +71,7 @@ export function TimeSlider() {
         {/* Play / Pause */}
         <button
           onClick={() => setPlaying((p) => !p)}
-          className={`mr-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
+          className={`mr-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
             playing
               ? 'bg-white/15 text-white'
               : 'text-white/40 hover:bg-white/10 hover:text-white/70'
@@ -86,6 +88,27 @@ export function TimeSlider() {
               <path d="M1 1.5V12.5L11 7L1 1.5Z" fill="currentColor" />
             </svg>
           )}
+        </button>
+
+        {/* Auto-rotate */}
+        <button
+          onClick={() => setAutoRotate(!autoRotate)}
+          className={`mr-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
+            autoRotate
+              ? 'bg-white/15 text-white'
+              : 'text-white/40 hover:bg-white/10 hover:text-white/70'
+          }`}
+          aria-label={autoRotate ? 'Stop rotation' : 'Start rotation'}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M13.5 8A5.5 5.5 0 1 1 5 3.2"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path d="M5.5 0.5L5 3.5L8 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
 
         {/* Divider */}

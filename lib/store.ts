@@ -8,10 +8,12 @@ export const useStore = create<StoreState>((set) => ({
   filters: { shipTypes: new Set(), flagIsos: new Set() },
   hoveredIndex: -1,
   selectedIndex: -1,
+  autoRotate: true,
   selectedCompany: null,
   binaries: new Map(),
   indices: new Map(),
 
+  setAutoRotate: (on) => set({ autoRotate: on }),
   setYear: (year) =>
     set((s) => ({
       year,
