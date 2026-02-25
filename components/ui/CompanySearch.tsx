@@ -119,7 +119,10 @@ export function CompanySearch() {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center">
+    <div
+      className="intro-panel pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center"
+      style={{ '--intro-delay': '1.9s', '--intro-y': '-8px' } as React.CSSProperties}
+    >
       <div className="pointer-events-auto relative w-[340px]">
         <div className="rounded-2xl border border-white/[0.08] bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
           <input
@@ -159,7 +162,7 @@ export function CompanySearch() {
                   }`}
                 >
                   <span className="min-w-0 truncate text-sm">{c.name}</span>
-                  <span className="shrink-0 text-xs tabular-nums text-white/30">
+                  <span className="shrink-0 font-mono text-xs tabular-nums text-white/30">
                     {c.count}
                   </span>
                 </button>

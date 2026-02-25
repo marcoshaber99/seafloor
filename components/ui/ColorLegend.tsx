@@ -46,7 +46,10 @@ export function ColorLegend() {
   const etsDisabled = year < 2024
 
   return (
-    <div className="pointer-events-none fixed bottom-24 right-6 z-50">
+    <div
+      className="intro-panel pointer-events-none fixed bottom-24 right-6 z-50"
+      style={{ '--intro-delay': '2.0s', '--intro-y': '8px' } as React.CSSProperties}
+    >
       <div className="pointer-events-auto rounded-2xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
         {/* Mode toggle */}
         <div className="flex items-center gap-0.5 rounded-lg bg-white/[0.04] p-0.5">
@@ -97,7 +100,7 @@ function GradientLegend({ mode }: { mode: 'co2' | 'ets' }) {
         className="h-2 w-full rounded-full"
         style={{ background: GRADIENT }}
       />
-      <div className="mt-1 flex justify-between text-[10px] text-white/40">
+      <div className="mt-1 flex justify-between font-mono text-[10px] text-white/40">
         <span>{minLabel}</span>
         <span>{maxLabel}</span>
       </div>

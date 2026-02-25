@@ -80,12 +80,15 @@ export function VesselLayer() {
 
   const geometry = useMemo(() => new THREE.CircleGeometry(0.8, 8), [])
 
+  const introRef = useRef(true)
+
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uCamDist: { value: 300 },
       uHoveredIndex: { value: -1 },
       uCamPos: { value: new THREE.Vector3(0, 0, 300) },
+      uIntroScale: { value: 0 },
     }),
     [],
   )
@@ -233,10 +236,16 @@ export function VesselLayer() {
   }, [])
 
   useFrame(({ clock, camera }) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
-      materialRef.current.uniforms.uCamDist.value = camera.position.length()
-      materialRef.current.uniforms.uCamPos.value.copy(camera.position)
+    if (!materialRef.current) return
+    const elapsed = clock.getElapsedTime()
+    materialRef.current.uniforms.uTime.value = elapsed
+    materialRef.current.uniforms.uCamDist.value = camera.position.length()
+    materialRef.current.uniforms.uCamPos.value.copy(camera.position)
+
+    if (introRef.current) {
+      const t = Math.min(Math.max((elapsed - 1.0) / 0.8, 0), 1)
+      materialRef.current.uniforms.uIntroScale.value = 1 - (1 - t) ** 3
+      if (t >= 1) introRef.current = false
     }
   })
 

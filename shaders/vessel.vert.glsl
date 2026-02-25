@@ -7,6 +7,7 @@ uniform float uTime;
 uniform float uCamDist;
 uniform int uHoveredIndex;
 uniform vec3 uCamPos;
+uniform float uIntroScale;
 
 varying vec3 vColor;
 varying float vOpacity;
@@ -26,7 +27,12 @@ void main() {
   // Fade instances near the globe's edge for smooth transition
   float edgeFade = smoothstep(-0.2, 0.15, facing);
 
-  float scale = instanceScale * instanceOpacity;
+  // Intro: stagger each instance using golden ratio hash for organic spread
+  float introStagger = fract(float(gl_InstanceID) * 0.618034);
+  float introT = clamp(uIntroScale * 2.0 - introStagger, 0.0, 1.0);
+  float introEased = introT * introT * (3.0 - 2.0 * introT); // smoothstep polynomial
+
+  float scale = instanceScale * instanceOpacity * introEased;
 
   // Zoom-aware scaling: shrink points when camera is close
   float zoom = smoothstep(120.0, 400.0, uCamDist);
