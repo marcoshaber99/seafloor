@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  }
+
   html,
   body {
     background: #000;
@@ -8,5 +13,42 @@
     overflow: hidden;
     height: 100%;
     width: 100%;
+    font-family: var(--font-sans);
+  }
+}
+
+/* Entrance animation: black overlay fades out to reveal the globe */
+@layer base {
+  .globe-reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: #000;
+    pointer-events: none;
+    animation: globe-reveal 1.2s ease-out 0.2s both;
+  }
+}
+
+@keyframes globe-reveal {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Entrance animation: UI panels slide + fade in with staggered delay */
+@layer base {
+  .intro-panel {
+    animation: ui-enter 0.5s ease-out both;
+    animation-delay: var(--intro-delay, 0s);
+  }
+}
+
+@keyframes ui-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--intro-y, 8px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

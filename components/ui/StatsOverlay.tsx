@@ -85,13 +85,16 @@ export function StatsOverlay() {
   if (!stats) return null
 
   return (
-    <div className="pointer-events-none fixed left-6 top-6 z-50">
+    <div
+      className="intro-panel pointer-events-none fixed left-6 top-6 z-50"
+      style={{ '--intro-delay': '1.8s', '--intro-y': '-8px' } as React.CSSProperties}
+    >
       <div className="rounded-2xl border border-white/[0.08] bg-white/[0.06] px-5 py-4 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
         <div className="mb-3 border-b border-white/[0.06] pb-3">
           <div className="text-[15px] font-semibold tracking-tight text-white">
             EU Shipping Emissions
           </div>
-          <div className="mt-0.5 text-[11px] text-white/30">
+          <div className="mt-0.5 font-mono text-[11px] text-white/30">
             THETIS-MRV · {year}
           </div>
         </div>
@@ -122,7 +125,7 @@ function AnimatedStat({
 
   return (
     <div>
-      <div className="text-2xl font-semibold tabular-nums tracking-tight text-white">
+      <div className="font-mono text-2xl font-semibold tabular-nums tracking-tight text-white">
         {format(animated)}{unit}
       </div>
       <div className="text-xs tracking-wide text-white/50">{label}</div>

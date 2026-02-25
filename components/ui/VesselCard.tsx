@@ -144,7 +144,7 @@ export function VesselCard() {
         <div className="min-w-0 shrink">
           <div className="text-[15px] font-semibold leading-snug text-white">{meta.name}</div>
         </div>
-        <span className="ml-auto mt-0.5 shrink-0 text-[11px] tabular-nums text-white/30">
+        <span className="ml-auto mt-0.5 shrink-0 font-mono text-[11px] tabular-nums text-white/30">
           IMO {meta.imo}
         </span>
         {isPinned && (
@@ -172,12 +172,12 @@ export function VesselCard() {
           <div className="my-2 border-t border-white/[0.08]" />
           <div className="flex items-baseline justify-between text-xs">
             <span className="text-white/50">CO₂ Total</span>
-            <span className="tabular-nums text-white">{formatCO2(co2Total)}</span>
+            <span className="font-mono tabular-nums text-white">{formatCO2(co2Total)}</span>
           </div>
           {year === 2024 && etsCost !== null && etsCost > 0 && (
             <div className="mt-1 flex items-baseline justify-between text-xs">
               <span className="text-white/50">EU ETS Cost</span>
-              <span className="tabular-nums text-white">{formatEUR(etsCost)}</span>
+              <span className="font-mono tabular-nums text-white">{formatEUR(etsCost)}</span>
             </div>
           )}
         </>
