@@ -73,6 +73,7 @@ export function VesselLayer() {
   const colorMode = useStore((s) => s.colorMode)
   const filters = useStore((s) => s.filters)
   const selectedCompany = useStore((s) => s.selectedCompany)
+  const selectedVessel = useStore((s) => s.selectedVessel)
   const binary = useStore((s) => s.binaries.get(s.year))
   const index = useStore((s) => s.indices.get(s.year))
   const setBinary = useStore((s) => s.setBinary)
@@ -156,8 +157,10 @@ export function VesselLayer() {
       const co2 = binary[offset + BINARY_FIELDS.CO2_TOTAL]
       buffers.instanceScale[visible] = Math.log10(Math.max(co2, 1)) / 5.5
 
-      if (companyIndices) {
-        const vesselIdx = binary[offset + BINARY_FIELDS.VESSEL_INDEX]
+      const vesselIdx = binary[offset + BINARY_FIELDS.VESSEL_INDEX]
+      if (selectedVessel !== null) {
+        buffers.instanceOpacity[visible] = vesselIdx === selectedVessel ? 1.0 : 0.2
+      } else if (companyIndices) {
         buffers.instanceOpacity[visible] = companyIndices.has(vesselIdx) ? 1.0 : 0.2
       } else {
         buffers.instanceOpacity[visible] = 1.0
@@ -185,7 +188,7 @@ export function VesselLayer() {
     setAttr('instanceColor', buffers.instanceColor, 3)
     setAttr('instanceScale', buffers.instanceScale, 1)
     setAttr('instanceOpacity', buffers.instanceOpacity, 1)
-  }, [binary, colorMode, filters, companyIndices])
+  }, [binary, colorMode, filters, companyIndices, selectedVessel])
 
   const handlePointerMove = useCallback(
     (e: ThreeEvent<PointerEvent>) => {

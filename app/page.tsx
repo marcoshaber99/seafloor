@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic'
 import { TimeSlider } from '@/components/ui/TimeSlider'
 import { StatsOverlay } from '@/components/ui/StatsOverlay'
-import { CompanySearch } from '@/components/ui/CompanySearch'
+import { SearchBar } from '@/components/ui/SearchBar'
 import { VesselCard } from '@/components/ui/VesselCard'
 import { ColorLegend } from '@/components/ui/ColorLegend'
 import { FilterPanel } from '@/components/ui/FilterPanel'
@@ -18,7 +18,7 @@ export default function Home() {
     <main className="relative h-screen w-screen overflow-hidden bg-black">
       <GlobeScene />
       <div className="globe-reveal" />
-      <CompanySearch />
+      <SearchBar />
       <StatsOverlay />
       <VesselCard />
       <FilterPanel />

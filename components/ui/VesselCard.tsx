@@ -8,6 +8,7 @@ import { formatCO2, formatEUR } from '@/lib/format'
 export function VesselCard() {
   const hoveredIndex = useStore((s) => s.hoveredIndex)
   const selectedIndex = useStore((s) => s.selectedIndex)
+  const selectedVessel = useStore((s) => s.selectedVessel)
   const year = useStore((s) => s.year)
   const binary = useStore((s) => s.binaries.get(s.year))
   const index = useStore((s) => s.indices.get(s.year))
@@ -53,15 +54,18 @@ export function VesselCard() {
 
   // Dismiss on year change
   useEffect(() => {
-    useStore.getState().setSelected(-1)
+    const s = useStore.getState()
+    s.setSelected(-1)
+    if (s.selectedVessel !== null) s.setSelectedVessel(null)
   }, [year])
 
-  // Dismiss on Escape — only vessel card, not company selection
+  // Dismiss on Escape — only vessel card from globe click, not search selection
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape' && useStore.getState().selectedIndex >= 0) {
+      const s = useStore.getState()
+      if (e.key === 'Escape' && s.selectedIndex >= 0 && s.selectedVessel === null) {
         e.stopImmediatePropagation()
-        useStore.getState().setSelected(-1)
+        s.setSelected(-1)
       }
     }
     window.addEventListener('keydown', onKey, { capture: true })
@@ -81,6 +85,7 @@ export function VesselCard() {
     return map
   }, [binary])
 
+  const isFromSearch = selectedVessel !== null
   const activeIndex = selectedIndex >= 0 ? selectedIndex : hoveredIndex
   const isPinned = selectedIndex >= 0
 
@@ -90,9 +95,9 @@ export function VesselCard() {
   const co2Total = binaryOffset !== undefined && binary ? binary[binaryOffset + BINARY_FIELDS.CO2_TOTAL] : null
   const etsCost = binaryOffset !== undefined && binary ? binary[binaryOffset + BINARY_FIELDS.ETS_COST] : null
 
-  // Update card position (hover follows mouse, pinned stays fixed)
+  // Update card position (hover follows mouse, pinned stays fixed, search uses fixed position)
   useEffect(() => {
-    if (isPinned || activeIndex < 0) return
+    if (isFromSearch || isPinned || activeIndex < 0) return
 
     let raf = 0
     function tick() {
@@ -101,7 +106,7 @@ export function VesselCard() {
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [isPinned, activeIndex])
+  }, [isFromSearch, isPinned, activeIndex])
 
   // Clamp card to viewport
   const clampedPos = useMemo(() => {
@@ -125,10 +130,65 @@ export function VesselCard() {
   }, [isPinned, pinnedPos, cardPos, cardSize])
 
   const dismiss = useCallback(() => {
-    useStore.getState().setSelected(-1)
+    const s = useStore.getState()
+    if (s.selectedVessel !== null) {
+      s.setSelectedVessel(null)
+    } else {
+      s.setSelected(-1)
+    }
   }, [])
 
   if (activeIndex < 0 || !meta) return null
+
+  if (isFromSearch) {
+    return (
+      <div
+        ref={cardRef}
+        className="pointer-events-auto fixed top-20 right-6 z-50 min-w-[220px] max-w-[320px] rounded-xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+      >
+        <div className="flex items-start gap-3">
+          <div className="min-w-0 shrink">
+            <div className="text-[15px] font-semibold leading-snug text-white">{meta.name}</div>
+          </div>
+          <span className="ml-auto mt-0.5 shrink-0 font-mono text-[11px] tabular-nums text-white/30">
+            IMO {meta.imo}
+          </span>
+          <button
+            onClick={dismiss}
+            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/80"
+          >
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+              <line x1="1" y1="1" x2="9" y2="9" />
+              <line x1="9" y1="1" x2="1" y2="9" />
+            </svg>
+          </button>
+        </div>
+
+        {meta.company_name && (
+          <div className="mt-1 truncate text-xs text-white/50">{meta.company_name}</div>
+        )}
+        <div className="mt-0.5 text-xs text-white/40">
+          {meta.type} · {meta.flag_country}
+        </div>
+
+        {co2Total !== null && (
+          <>
+            <div className="my-2 border-t border-white/[0.08]" />
+            <div className="flex items-baseline justify-between text-xs">
+              <span className="text-white/50">CO₂ Total</span>
+              <span className="font-mono tabular-nums text-white">{formatCO2(co2Total)}</span>
+            </div>
+            {year === 2024 && etsCost !== null && etsCost > 0 && (
+              <div className="mt-1 flex items-baseline justify-between text-xs">
+                <span className="text-white/50">EU ETS Cost</span>
+                <span className="font-mono tabular-nums text-white">{formatEUR(etsCost)}</span>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div

@@ -10,6 +10,7 @@ export const useStore = create<StoreState>((set) => ({
   selectedIndex: -1,
   autoRotate: true,
   selectedCompany: null,
+  selectedVessel: null,
   binaries: new Map(),
   indices: new Map(),
 
@@ -29,7 +30,9 @@ export const useStore = create<StoreState>((set) => ({
     })),
   setHovered: (index) => set({ hoveredIndex: index }),
   setSelected: (index) => set({ selectedIndex: index }),
-  setSelectedCompany: (company) => set({ selectedCompany: company }),
+  setSelectedCompany: (company) => set({ selectedCompany: company, selectedVessel: null }),
+  setSelectedVessel: (index) =>
+    set({ selectedVessel: index, selectedCompany: null, selectedIndex: index ?? -1 }),
   setBinary: (year, buffer) =>
     set((s) => {
       const next = new Map(s.binaries)

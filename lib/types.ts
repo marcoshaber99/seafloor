@@ -38,6 +38,7 @@ export interface StoreState {
   selectedIndex: number
   autoRotate: boolean
   selectedCompany: string | null
+  selectedVessel: number | null
   binaries: Map<number, Float32Array>
   indices: Map<number, VesselIndex>
 
@@ -48,6 +49,7 @@ export interface StoreState {
   setHovered: (index: number) => void
   setSelected: (index: number) => void
   setSelectedCompany: (company: string | null) => void
+  setSelectedVessel: (index: number | null) => void
   setBinary: (year: number, buffer: Float32Array) => void
   setIndex: (year: number, index: VesselIndex) => void
 }
