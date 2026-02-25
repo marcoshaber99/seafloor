@@ -85,6 +85,7 @@ export function VesselLayer() {
       uTime: { value: 0 },
       uCamDist: { value: 300 },
       uHoveredIndex: { value: -1 },
+      uCamPos: { value: new THREE.Vector3(0, 0, 300) },
     }),
     [],
   )
@@ -235,6 +236,7 @@ export function VesselLayer() {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
       materialRef.current.uniforms.uCamDist.value = camera.position.length()
+      materialRef.current.uniforms.uCamPos.value.copy(camera.position)
     }
   })
 

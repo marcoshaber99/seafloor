@@ -6,12 +6,26 @@ attribute float instanceOpacity;
 uniform float uTime;
 uniform float uCamDist;
 uniform int uHoveredIndex;
+uniform vec3 uCamPos;
 
 varying vec3 vColor;
 varying float vOpacity;
 varying vec2 vUv;
 
 void main() {
+  // Cull instances on the far side of the globe
+  float facing = dot(normalize(instancePosition), normalize(uCamPos));
+  if (facing < -0.2) {
+    gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
+    vOpacity = 0.0;
+    vColor = vec3(0.0);
+    vUv = vec2(0.0);
+    return;
+  }
+
+  // Fade instances near the globe's edge for smooth transition
+  float edgeFade = smoothstep(-0.2, 0.15, facing);
+
   float scale = instanceScale * instanceOpacity;
 
   // Zoom-aware scaling: shrink points when camera is close
@@ -34,6 +48,6 @@ void main() {
   gl_Position = projectionMatrix * mvPosition;
 
   vColor = instanceColor;
-  vOpacity = instanceOpacity;
+  vOpacity = instanceOpacity * edgeFade;
   vUv = uv;
 }

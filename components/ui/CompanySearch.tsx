@@ -59,10 +59,11 @@ export function CompanySearch() {
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape' && selectedCompany) {
-        e.preventDefault()
-        clear()
-      }
+      if (e.key !== 'Escape' || !selectedCompany) return
+      // Don't clear company if vessel card is pinned — let VesselCard handle first
+      if (useStore.getState().selectedIndex >= 0) return
+      e.preventDefault()
+      clear()
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -140,28 +141,32 @@ export function CompanySearch() {
           />
         </div>
 
-        {open && results.length > 0 && (
+        {open && query.trim().length > 0 && (
           <div
             ref={listRef}
             className="absolute inset-x-0 top-full mt-1.5 max-h-[280px] overflow-y-auto rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
           >
-            {results.map((c, i) => (
-              <button
-                key={c.name}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => select(c.name)}
-                className={`flex w-full items-baseline justify-between gap-3 px-4 py-2.5 text-left transition-colors ${
-                  i === activeIdx
-                    ? 'bg-white/10 text-white'
-                    : 'text-white/70 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                <span className="min-w-0 truncate text-sm">{c.name}</span>
-                <span className="shrink-0 text-xs tabular-nums text-white/30">
-                  {c.count}
-                </span>
-              </button>
-            ))}
+            {results.length > 0 ? (
+              results.map((c, i) => (
+                <button
+                  key={c.name}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => select(c.name)}
+                  className={`flex w-full items-baseline justify-between gap-3 px-4 py-2.5 text-left transition-colors ${
+                    i === activeIdx
+                      ? 'bg-white/10 text-white'
+                      : 'text-white/70 hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  <span className="min-w-0 truncate text-sm">{c.name}</span>
+                  <span className="shrink-0 text-xs tabular-nums text-white/30">
+                    {c.count}
+                  </span>
+                </button>
+              ))
+            ) : (
+              <div className="px-4 py-3 text-sm text-white/30">No results found</div>
+            )}
           </div>
         )}
       </div>

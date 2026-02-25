@@ -3,19 +3,7 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useStore } from '@/lib/store'
 import { FIELDS_PER_VESSEL, BINARY_FIELDS } from '@/lib/constants'
-
-function formatCO2(tonnes: number): string {
-  if (tonnes >= 1_000_000) return `${(tonnes / 1_000_000).toFixed(1)}M t`
-  if (tonnes >= 1_000) return `${(tonnes / 1_000).toFixed(1)}K t`
-  return `${tonnes.toFixed(0)} t`
-}
-
-function formatEUR(eur: number): string {
-  if (eur >= 1_000_000_000) return `€${(eur / 1_000_000_000).toFixed(2)}B`
-  if (eur >= 1_000_000) return `€${(eur / 1_000_000).toFixed(1)}M`
-  if (eur >= 1_000) return `€${(eur / 1_000).toFixed(0)}K`
-  return `€${eur.toFixed(0)}`
-}
+import { formatCO2, formatEUR } from '@/lib/format'
 
 export function VesselCard() {
   const hoveredIndex = useStore((s) => s.hoveredIndex)
@@ -28,6 +16,7 @@ export function VesselCard() {
   const mouseRef = useRef({ x: 0, y: 0 })
   const [pinnedPos, setPinnedPos] = useState<{ x: number; y: number } | null>(null)
   const [cardPos, setCardPos] = useState({ x: 0, y: 0 })
+  const [cardSize, setCardSize] = useState({ w: 240, h: 160 })
   const prevSelectedRef = useRef(-1)
 
   // Track mouse position
@@ -37,6 +26,19 @@ export function VesselCard() {
     }
     window.addEventListener('mousemove', onMove)
     return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
+  // Track card dimensions
+  useEffect(() => {
+    const card = cardRef.current
+    if (!card) return
+
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      setCardSize({ w: Math.ceil(width), h: Math.ceil(height) })
+    })
+    ro.observe(card)
+    return () => ro.disconnect()
   }, [])
 
   // Pin position when selection changes from -1 to a value
@@ -54,13 +56,16 @@ export function VesselCard() {
     useStore.getState().setSelected(-1)
   }, [year])
 
-  // Dismiss on Escape
+  // Dismiss on Escape — only vessel card, not company selection
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') useStore.getState().setSelected(-1)
+      if (e.key === 'Escape' && useStore.getState().selectedIndex >= 0) {
+        e.stopImmediatePropagation()
+        useStore.getState().setSelected(-1)
+      }
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener('keydown', onKey, { capture: true })
+    return () => window.removeEventListener('keydown', onKey, { capture: true })
   }, [])
 
   // Build reverse lookup: vesselIndex → binary offset
@@ -101,16 +106,15 @@ export function VesselCard() {
   // Clamp card to viewport
   const clampedPos = useMemo(() => {
     const base = isPinned && pinnedPos ? pinnedPos : cardPos
-    const card = cardRef.current
-    const cw = card?.offsetWidth ?? 240
-    const ch = card?.offsetHeight ?? 160
+    const cw = cardSize.w
+    const ch = cardSize.h
     const offset = 16
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1920
     const vh = typeof window !== 'undefined' ? window.innerHeight : 1080
 
     let x = base.x + offset
     let y = base.y - ch - offset
-    const bottomClear = 100 // clear the TimeSlider
+    const bottomClear = 100
 
     if (x + cw > vw) x = base.x - cw - offset
     if (y < 0) y = base.y + offset
@@ -118,7 +122,7 @@ export function VesselCard() {
     if (y + ch > vh - bottomClear) y = vh - ch - bottomClear
 
     return { x, y }
-  }, [isPinned, pinnedPos, cardPos])
+  }, [isPinned, pinnedPos, cardPos, cardSize])
 
   const dismiss = useCallback(() => {
     useStore.getState().setSelected(-1)

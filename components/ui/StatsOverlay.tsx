@@ -3,6 +3,7 @@
 import { useMemo, useEffect, useRef, useState } from 'react'
 import { useStore } from '@/lib/store'
 import { FIELDS_PER_VESSEL, BINARY_FIELDS } from '@/lib/constants'
+import { formatCount, formatCO2, formatEUR } from '@/lib/format'
 
 const ANIM_DURATION = 400
 
@@ -34,22 +35,6 @@ function useAnimatedValue(target: number): number {
   }, [target])
 
   return display
-}
-
-function formatCount(n: number): string {
-  return Math.round(n).toLocaleString('en-US')
-}
-
-function formatCO2(tonnes: number): string {
-  if (tonnes >= 1_000_000) return `${(tonnes / 1_000_000).toFixed(1)}M`
-  if (tonnes >= 1_000) return `${(tonnes / 1_000).toFixed(0)}K`
-  return tonnes.toFixed(0)
-}
-
-function formatEUR(eur: number): string {
-  if (eur >= 1_000_000_000) return `€${(eur / 1_000_000_000).toFixed(2)}B`
-  if (eur >= 1_000_000) return `€${(eur / 1_000_000).toFixed(0)}M`
-  return `€${(eur / 1_000).toFixed(0)}K`
 }
 
 export function StatsOverlay() {
@@ -102,9 +87,17 @@ export function StatsOverlay() {
   return (
     <div className="pointer-events-none fixed left-6 top-6 z-50">
       <div className="rounded-2xl border border-white/[0.08] bg-white/[0.06] px-5 py-4 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+        <div className="mb-3 border-b border-white/[0.06] pb-3">
+          <div className="text-[15px] font-semibold tracking-tight text-white">
+            EU Shipping Emissions
+          </div>
+          <div className="mt-0.5 text-[11px] text-white/30">
+            THETIS-MRV · {year}
+          </div>
+        </div>
         <div className="flex flex-col gap-3">
           <AnimatedStat raw={stats.vessels} format={formatCount} unit="" label="vessels" />
-          <AnimatedStat raw={stats.co2} format={formatCO2} unit=" t" label="CO₂ emissions" />
+          <AnimatedStat raw={stats.co2} format={formatCO2} unit="" label="CO₂ emissions" />
           {year === 2024 && stats.etsCost > 0 && (
             <AnimatedStat raw={stats.etsCost} format={formatEUR} unit="" label="EU ETS exposure" />
           )}

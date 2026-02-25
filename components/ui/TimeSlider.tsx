@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { RotateCw, Square } from 'lucide-react'
+import { RotateCw } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { usePrefetchYears } from '@/lib/use-prefetch'
 import { YEAR_RANGE } from '@/lib/constants'
@@ -101,11 +101,7 @@ export function TimeSlider() {
           }`}
           aria-label={autoRotate ? 'Stop rotation' : 'Start rotation'}
         >
-          {autoRotate ? (
-            <RotateCw size={14} strokeWidth={2} />
-          ) : (
-            <Square size={8} strokeWidth={0} fill="currentColor" />
-          )}
+          <RotateCw size={14} strokeWidth={2} />
         </button>
 
         {/* Divider */}

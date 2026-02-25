@@ -29,7 +29,7 @@ export function GlobeCore() {
         g.polygonsData(countries.features)
           .polygonCapColor(() => 'rgba(0,0,0,0)')
           .polygonSideColor(() => 'rgba(0,0,0,0)')
-          .polygonStrokeColor(() => 'rgba(80, 120, 180, 0.15)')
+          .polygonStrokeColor(() => 'rgba(100, 140, 200, 0.25)')
           .polygonAltitude(0.001)
       })
 
