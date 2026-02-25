@@ -42,6 +42,22 @@
   }
 }
 
+/* Scrollbar — must be unlayered to override UA defaults */
+.dark-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255 255 255 / 0.15) transparent;
+}
+.dark-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.dark-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dark-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255 255 255 / 0.15);
+  border-radius: 2px;
+}
+
 @keyframes ui-enter {
   from {
     opacity: 0;

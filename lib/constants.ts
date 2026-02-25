@@ -32,6 +32,26 @@ export const SHIP_TYPES = [
   'Vehicle carrier',
 ] as const
 
+export const SHORT_TYPE_LABELS = [
+  'Bulk carrier',
+  'Chemical tanker',
+  'Combination',
+  'Container',
+  'Container/Ro-ro',
+  'Gas carrier',
+  'General cargo',
+  'LNG carrier',
+  'Oil tanker',
+  'Other',
+  'Offshore',
+  'Passenger',
+  'Cruise',
+  'Reefer',
+  'Ro-pax',
+  'Ro-ro',
+  'Vehicle carrier',
+] as const
+
 export const BINARY_FIELDS = {
   LAT: 0,
   LNG: 1,

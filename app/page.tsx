@@ -6,6 +6,7 @@ import { StatsOverlay } from '@/components/ui/StatsOverlay'
 import { CompanySearch } from '@/components/ui/CompanySearch'
 import { VesselCard } from '@/components/ui/VesselCard'
 import { ColorLegend } from '@/components/ui/ColorLegend'
+import { FilterPanel } from '@/components/ui/FilterPanel'
 
 const GlobeScene = dynamic(() => import('@/components/globe/GlobeScene'), {
   ssr: false,
@@ -20,6 +21,7 @@ export default function Home() {
       <CompanySearch />
       <StatsOverlay />
       <VesselCard />
+      <FilterPanel />
       <ColorLegend />
       <TimeSlider />
     </main>

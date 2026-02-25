@@ -2,32 +2,13 @@
 
 import { useStore } from '@/lib/store'
 import { CO2_COLORS, SHIP_TYPE_COLORS } from '@/lib/color'
+import { SHORT_TYPE_LABELS } from '@/lib/constants'
 import type { ColorMode } from '@/lib/types'
 
 const MODES: { mode: ColorMode; label: string }[] = [
   { mode: 'co2', label: 'CO\u2082' },
   { mode: 'ets', label: 'ETS Cost' },
   { mode: 'shipType', label: 'Ship Type' },
-]
-
-const SHORT_TYPE_LABELS = [
-  'Bulk carrier',
-  'Chemical tanker',
-  'Combination',
-  'Container',
-  'Container/Ro-ro',
-  'Gas carrier',
-  'General cargo',
-  'LNG carrier',
-  'Oil tanker',
-  'Other',
-  'Offshore',
-  'Passenger',
-  'Cruise',
-  'Reefer',
-  'Ro-pax',
-  'Ro-ro',
-  'Vehicle carrier',
 ]
 
 function toRgb(r: number, g: number, b: number): string {
