@@ -52,12 +52,7 @@ export function VesselCard() {
     prevSelectedRef.current = selectedIndex
   }, [selectedIndex])
 
-  // Dismiss on year change
-  useEffect(() => {
-    const s = useStore.getState()
-    s.setSelected(-1)
-    if (s.selectedVessel !== null) s.setSelectedVessel(null)
-  }, [year])
+  // Year change clears interaction state via store's setYear action
 
   // Dismiss on Escape — only vessel card from globe click, not search selection
   useEffect(() => {

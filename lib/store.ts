@@ -19,6 +19,9 @@ export const useStore = create<StoreState>((set) => ({
     set((s) => ({
       year,
       colorMode: year < 2024 && s.colorMode === 'ets' ? 'co2' : s.colorMode,
+      hoveredIndex: -1,
+      selectedIndex: -1,
+      selectedVessel: null,
     })),
   setColorMode: (mode) => set({ colorMode: mode }),
   setFilters: (partial) =>
@@ -30,7 +33,8 @@ export const useStore = create<StoreState>((set) => ({
     })),
   setHovered: (index) => set({ hoveredIndex: index }),
   setSelected: (index) => set({ selectedIndex: index }),
-  setSelectedCompany: (company) => set({ selectedCompany: company, selectedVessel: null }),
+  setSelectedCompany: (company) =>
+    set({ selectedCompany: company, selectedVessel: null, selectedIndex: -1 }),
   setSelectedVessel: (index) =>
     set({ selectedVessel: index, selectedCompany: null, selectedIndex: index ?? -1 }),
   setBinary: (year, buffer) =>

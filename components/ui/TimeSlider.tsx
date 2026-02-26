@@ -42,6 +42,9 @@ export function TimeSlider() {
   // Keyboard navigation
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement).tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
+
       if (e.key === 'ArrowRight') {
         e.preventDefault()
         step(1)

@@ -210,7 +210,7 @@ export function SearchBar() {
         {open && query.trim().length > 0 && (
           <div
             ref={listRef}
-            className="absolute inset-x-0 top-full mt-1.5 max-h-[360px] overflow-y-auto rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+            className="dark-scroll absolute inset-x-0 top-full mt-1.5 max-h-[360px] overflow-y-auto rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
           >
             {results.length > 0 ? (
               <>
