@@ -2,8 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
-// TODO: Update to final production URL
-const SITE_URL = 'https://seafloor.dev'
+const SITE_URL = 'https://seafloor.pages.dev'
 
 const inter = Inter({
   subsets: ['latin'],
