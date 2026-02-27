@@ -17,9 +17,9 @@ Interactive 3D globe visualizing seven years of EU shipping emissions data (THET
 - `bun dev` — start dev server (Turbopack)
 - `bun run build` — production build
 - `bun run lint` — eslint
-- `uv run python scripts/parse_thetis.py data/raw/2024.xlsx data/processed/2024.json` — parse THETIS-MRV data
-- `uv run python scripts/geo_lookup.py` — generate flag centroid coordinates
-- `uv run python scripts/build_binary.py` — convert all parsed JSON to binary GPU buffers
+- `uv run --project scripts python scripts/parse_thetis.py data/raw/2024.xlsx data/processed/2024.json` — parse THETIS-MRV data
+- `uv run --project scripts python scripts/geo_lookup.py` — generate flag centroid coordinates
+- `uv run --project scripts python scripts/build_binary.py` — convert all parsed JSON to binary GPU buffers
 
 ## Architecture Decisions
 
