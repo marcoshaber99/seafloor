@@ -42,11 +42,11 @@ export const metadata: Metadata = {
     siteName: 'Seafloor',
     images: [
       {
-        url: '/og.png',
-        width: 1193,
+        url: '/og.webp',
+        width: 1200,
         height: 630,
         alt: 'Seafloor — 3D globe showing EU shipping emissions data points across the world',
-        type: 'image/png',
+        type: 'image/webp',
       },
     ],
     locale: 'en_US',
@@ -59,8 +59,8 @@ export const metadata: Metadata = {
       'Interactive 3D globe visualizing seven years of EU shipping emissions data (2018–2024) from THETIS-MRV.',
     images: [
       {
-        url: '/og.png',
-        width: 1193,
+        url: '/og.webp',
+        width: 1200,
         height: 630,
         alt: 'Seafloor — 3D globe showing EU shipping emissions data points across the world',
       },
