@@ -62,11 +62,11 @@ export function TimeSlider() {
 
   return (
     <div
-      className="intro-panel pointer-events-none fixed inset-x-0 bottom-8 z-50 flex justify-center"
+      className="intro-panel pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center sm:bottom-8"
       style={{ '--intro-delay': '2.1s', '--intro-y': '8px' } as React.CSSProperties}
     >
       <div
-        className="pointer-events-auto flex items-center rounded-2xl border border-white/[0.08] bg-white/[0.06] px-3 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+        className="pointer-events-auto flex items-center rounded-2xl border border-white/[0.08] bg-white/[0.06] px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:px-3"
         role="slider"
         aria-label="Year selector"
         aria-valuemin={YEAR_RANGE[0]}
@@ -75,46 +75,46 @@ export function TimeSlider() {
         aria-valuetext={String(year)}
         tabIndex={0}
       >
-        {/* Play / Pause */}
-        <button
-          onClick={() => setPlaying((p) => !p)}
-          className={`mr-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
-            playing
-              ? 'bg-white/15 text-white'
-              : 'text-white/40 hover:bg-white/10 hover:text-white/70'
-          }`}
-          aria-label={playing ? 'Pause' : 'Play'}
-        >
-          {playing ? (
-            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
-              <rect x="1" y="1" width="3" height="12" rx="0.75" fill="currentColor" />
-              <rect x="8" y="1" width="3" height="12" rx="0.75" fill="currentColor" />
-            </svg>
-          ) : (
-            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
-              <path d="M1 1.5V12.5L11 7L1 1.5Z" fill="currentColor" />
-            </svg>
-          )}
-        </button>
+        {/* Play / Pause + Auto-rotate + Divider — hidden on mobile */}
+        <div className="hidden items-center sm:flex">
+          <button
+            onClick={() => setPlaying((p) => !p)}
+            className={`mr-1.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
+              playing
+                ? 'bg-white/15 text-white'
+                : 'text-white/40 hover:bg-white/10 hover:text-white/70'
+            }`}
+            aria-label={playing ? 'Pause' : 'Play'}
+          >
+            {playing ? (
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                <rect x="1" y="1" width="3" height="12" rx="0.75" fill="currentColor" />
+                <rect x="8" y="1" width="3" height="12" rx="0.75" fill="currentColor" />
+              </svg>
+            ) : (
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                <path d="M1 1.5V12.5L11 7L1 1.5Z" fill="currentColor" />
+              </svg>
+            )}
+          </button>
 
-        {/* Auto-rotate */}
-        <button
-          onClick={() => setAutoRotate(!autoRotate)}
-          className={`mr-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
-            autoRotate
-              ? 'bg-white/15 text-white'
-              : 'text-white/40 hover:bg-white/10 hover:text-white/70'
-          }`}
-          aria-label={autoRotate ? 'Stop rotation' : 'Start rotation'}
-        >
-          <RotateCw size={14} strokeWidth={2} />
-        </button>
+          <button
+            onClick={() => setAutoRotate(!autoRotate)}
+            className={`mr-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
+              autoRotate
+                ? 'bg-white/15 text-white'
+                : 'text-white/40 hover:bg-white/10 hover:text-white/70'
+            }`}
+            aria-label={autoRotate ? 'Stop rotation' : 'Start rotation'}
+          >
+            <RotateCw size={14} strokeWidth={2} />
+          </button>
 
-        {/* Divider */}
-        <div className="mr-3 h-5 w-px bg-white/10" />
+          <div className="mr-3 h-5 w-px bg-white/10" />
+        </div>
 
         {/* Year buttons */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5 sm:gap-1">
           {YEARS.map((y) => {
             const isActive = y === year
             const isLoaded = binaries.has(y)
@@ -123,14 +123,14 @@ export function TimeSlider() {
               <button
                 key={y}
                 onClick={() => setYear(y)}
-                className={`flex flex-col items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-all duration-200 ${
+                className={`flex flex-col items-center gap-1.5 px-2 py-1.5 rounded-lg transition-all duration-200 sm:px-3.5 ${
                   isActive
                     ? 'bg-white/10 text-white'
                     : 'text-white/30 hover:text-white/60 hover:bg-white/5'
                 }`}
               >
                 <span
-                  className={`font-mono text-sm tabular-nums tracking-wide ${
+                  className={`font-mono text-xs tabular-nums tracking-wide sm:text-sm ${
                     isActive ? 'font-semibold' : 'font-normal'
                   }`}
                 >

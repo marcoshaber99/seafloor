@@ -7,6 +7,7 @@ import { SearchBar } from '@/components/ui/SearchBar'
 import { VesselCard } from '@/components/ui/VesselCard'
 import { ColorLegend } from '@/components/ui/ColorLegend'
 import { FilterPanel } from '@/components/ui/FilterPanel'
+import { MobileHint } from '@/components/ui/MobileHint'
 
 const GlobeScene = dynamic(() => import('@/components/globe/GlobeScene'), {
   ssr: false,
@@ -24,6 +25,7 @@ export default function Home() {
       <FilterPanel />
       <ColorLegend />
       <TimeSlider />
+      <MobileHint />
     </main>
   )
 }

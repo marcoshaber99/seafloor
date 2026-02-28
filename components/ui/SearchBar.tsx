@@ -162,9 +162,9 @@ export function SearchBar() {
 
   if (selectionLabel) {
     return (
-      <div className="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center">
+      <div className="pointer-events-none fixed inset-x-0 top-[7.5rem] z-50 flex justify-center sm:top-6">
         <div className="pointer-events-auto flex items-center gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.06] px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-          <span className="max-w-[320px] truncate text-sm font-medium text-white">
+          <span className="max-w-[260px] truncate text-sm font-medium text-white sm:max-w-[320px]">
             {selectionLabel}
           </span>
           <button
@@ -183,10 +183,10 @@ export function SearchBar() {
 
   return (
     <div
-      className="intro-panel pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center"
+      className="intro-panel pointer-events-none fixed inset-x-0 top-[7.5rem] z-50 flex justify-center sm:top-6"
       style={{ '--intro-delay': '1.9s', '--intro-y': '-8px' } as React.CSSProperties}
     >
-      <div className="pointer-events-auto relative w-[340px]">
+      <div className="pointer-events-auto relative w-[calc(100vw-2rem)] max-w-[340px]">
         <div className="rounded-2xl border border-white/[0.08] bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
           <input
             ref={inputRef}

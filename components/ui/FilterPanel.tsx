@@ -112,7 +112,7 @@ export function FilterPanel() {
   return (
     <div
       ref={panelRef}
-      className="intro-panel pointer-events-none fixed right-6 top-6 z-50"
+      className="intro-panel pointer-events-none fixed right-3 top-3 z-50 sm:right-6 sm:top-6"
       style={{ '--intro-delay': '2.2s', '--intro-y': '-8px' } as React.CSSProperties}
     >
       <div className="pointer-events-auto">
