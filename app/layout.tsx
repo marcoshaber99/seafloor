@@ -43,8 +43,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og.png',
-        width: 1200,
-        height: 752,
+        width: 1193,
+        height: 630,
         alt: 'Seafloor — 3D globe showing EU shipping emissions data points across the world',
         type: 'image/png',
       },
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og.png',
-        width: 1200,
-        height: 752,
+        width: 1193,
+        height: 630,
         alt: 'Seafloor — 3D globe showing EU shipping emissions data points across the world',
       },
     ],
