@@ -160,9 +160,12 @@ export function SearchBar() {
       ? index.vessels[selectedVessel]?.name ?? null
       : null
 
-  if (selectionLabel) {
-    return (
-      <div className="pointer-events-none fixed inset-x-0 top-[7.5rem] z-50 flex justify-center sm:top-6">
+  return (
+    <div
+      className="intro-panel pointer-events-none fixed inset-x-0 top-[7.5rem] z-50 flex justify-center sm:top-6"
+      style={{ '--intro-delay': '1.9s', '--intro-y': '-8px' } as React.CSSProperties}
+    >
+      {selectionLabel ? (
         <div className="pointer-events-auto flex items-center gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.06] px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
           <span className="max-w-[260px] truncate text-sm font-medium text-white sm:max-w-[320px]">
             {selectionLabel}
@@ -177,109 +180,102 @@ export function SearchBar() {
             </svg>
           </button>
         </div>
-      </div>
-    )
-  }
-
-  return (
-    <div
-      className="intro-panel pointer-events-none fixed inset-x-0 top-[7.5rem] z-50 flex justify-center sm:top-6"
-      style={{ '--intro-delay': '1.9s', '--intro-y': '-8px' } as React.CSSProperties}
-    >
-      <div className="pointer-events-auto relative w-[calc(100vw-2rem)] max-w-[340px]">
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value)
-              setActiveIdx(-1)
-              setOpen(true)
-            }}
-            onFocus={() => setOpen(true)}
-            onBlur={() => {
-              setTimeout(() => setOpen(false), 150)
-            }}
-            onKeyDown={onInputKeyDown}
-            placeholder="Search vessels, companies, or IMO..."
-            className="w-full bg-transparent px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none"
-          />
-        </div>
-
-        {open && query.trim().length > 0 && (
-          <div
-            ref={listRef}
-            className="dark-scroll absolute inset-x-0 top-full mt-1.5 max-h-[360px] overflow-y-auto rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
-          >
-            {results.length > 0 ? (
-              <>
-                {companyCount > 0 && (
-                  <div className="px-4 pt-2.5 pb-1 text-[11px] font-medium uppercase tracking-wider text-white/25">
-                    Companies
-                  </div>
-                )}
-                {results.map((r, i) => {
-                  if (r.kind === 'company') {
-                    return (
-                      <button
-                        key={`c-${r.name}`}
-                        data-result
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => selectCompany(r.name)}
-                        className={`flex w-full items-baseline justify-between gap-3 px-4 py-2 text-left transition-colors ${
-                          i === activeIdx
-                            ? 'bg-white/10 text-white'
-                            : 'text-white/70 hover:bg-white/5 hover:text-white'
-                        }`}
-                      >
-                        <span className="min-w-0 truncate text-sm">{r.name}</span>
-                        <span className="shrink-0 font-mono text-xs tabular-nums text-white/30">
-                          {r.count}
-                        </span>
-                      </button>
-                    )
-                  }
-                  return null
-                })}
-                {results.some((r) => r.kind === 'vessel') && (
-                  <div className={`px-4 pb-1 text-[11px] font-medium uppercase tracking-wider text-white/25 ${companyCount > 0 ? 'mt-1 border-t border-white/[0.06] pt-2.5' : 'pt-2.5'}`}>
-                    Vessels
-                  </div>
-                )}
-                {results.map((r, i) => {
-                  if (r.kind === 'vessel') {
-                    return (
-                      <button
-                        key={`v-${r.imo}`}
-                        data-result
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => selectVessel(r.index)}
-                        className={`flex w-full items-baseline justify-between gap-3 px-4 py-2 text-left transition-colors ${
-                          i === activeIdx
-                            ? 'bg-white/10 text-white'
-                            : 'text-white/70 hover:bg-white/5 hover:text-white'
-                        }`}
-                      >
-                        <div className="min-w-0">
-                          <span className="truncate text-sm">{r.name}</span>
-                          <span className="ml-2 text-xs text-white/30">{r.type}</span>
-                        </div>
-                        <span className="shrink-0 font-mono text-[11px] tabular-nums text-white/25">
-                          {r.imo}
-                        </span>
-                      </button>
-                    )
-                  }
-                  return null
-                })}
-              </>
-            ) : (
-              <div className="px-4 py-3 text-sm text-white/30">No results found</div>
-            )}
+      ) : (
+        <div className="pointer-events-auto relative w-[calc(100vw-2rem)] max-w-[340px]">
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value)
+                setActiveIdx(-1)
+                setOpen(true)
+              }}
+              onFocus={() => setOpen(true)}
+              onBlur={() => {
+                setTimeout(() => setOpen(false), 150)
+              }}
+              onKeyDown={onInputKeyDown}
+              placeholder="Search vessels, companies, or IMO..."
+              className="w-full bg-transparent px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none"
+            />
           </div>
-        )}
-      </div>
+
+          {open && query.trim().length > 0 && (
+            <div
+              ref={listRef}
+              className="dark-scroll absolute inset-x-0 top-full mt-1.5 max-h-[360px] overflow-y-auto rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+            >
+              {results.length > 0 ? (
+                <>
+                  {companyCount > 0 && (
+                    <div className="px-4 pt-2.5 pb-1 text-[11px] font-medium uppercase tracking-wider text-white/25">
+                      Companies
+                    </div>
+                  )}
+                  {results.map((r, i) => {
+                    if (r.kind === 'company') {
+                      return (
+                        <button
+                          key={`c-${r.name}`}
+                          data-result
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => selectCompany(r.name)}
+                          className={`flex w-full items-baseline justify-between gap-3 px-4 py-2 text-left transition-colors ${
+                            i === activeIdx
+                              ? 'bg-white/10 text-white'
+                              : 'text-white/70 hover:bg-white/5 hover:text-white'
+                          }`}
+                        >
+                          <span className="min-w-0 truncate text-sm">{r.name}</span>
+                          <span className="shrink-0 font-mono text-xs tabular-nums text-white/30">
+                            {r.count}
+                          </span>
+                        </button>
+                      )
+                    }
+                    return null
+                  })}
+                  {results.some((r) => r.kind === 'vessel') && (
+                    <div className={`px-4 pb-1 text-[11px] font-medium uppercase tracking-wider text-white/25 ${companyCount > 0 ? 'mt-1 border-t border-white/[0.06] pt-2.5' : 'pt-2.5'}`}>
+                      Vessels
+                    </div>
+                  )}
+                  {results.map((r, i) => {
+                    if (r.kind === 'vessel') {
+                      return (
+                        <button
+                          key={`v-${r.imo}`}
+                          data-result
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => selectVessel(r.index)}
+                          className={`flex w-full items-baseline justify-between gap-3 px-4 py-2 text-left transition-colors ${
+                            i === activeIdx
+                              ? 'bg-white/10 text-white'
+                              : 'text-white/70 hover:bg-white/5 hover:text-white'
+                          }`}
+                        >
+                          <div className="min-w-0">
+                            <span className="truncate text-sm">{r.name}</span>
+                            <span className="ml-2 text-xs text-white/30">{r.type}</span>
+                          </div>
+                          <span className="shrink-0 font-mono text-[11px] tabular-nums text-white/25">
+                            {r.imo}
+                          </span>
+                        </button>
+                      )
+                    }
+                    return null
+                  })}
+                </>
+              ) : (
+                <div className="px-4 py-3 text-sm text-white/30">No results found</div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
