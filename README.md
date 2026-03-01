@@ -105,22 +105,6 @@ Per vessel (44 bytes):
 
 The binary format exists so the fetched `ArrayBuffer` can be sliced at byte 32 and passed directly into `InstancedBufferAttribute` — no parsing, no intermediate objects, no GC pressure. Each year is one fetch and one buffer swap.
 
-## Project structure
-
-```
-app/              Next.js app (page.tsx is client-only with dynamic import)
-components/
-  globe/          GlobeCore, VesselLayer, CameraController, PostProcessing
-  ui/             StatsOverlay, TimeSlider, ColorLegend, FilterPanel, SearchBar, VesselCard
-lib/              Store, data loader, color scales, geo math, types
-shaders/          Vertex and fragment shaders for vessel rendering
-scripts/          Python data pipeline (parse, geocode, binary build)
-data/raw/         Source Excel files from THETIS-MRV
-data/processed/   Intermediate JSON (one per year)
-public/data/      Runtime assets served to the browser
-docs/             Architecture decisions, data reference
-```
-
 ## License
 
 MIT

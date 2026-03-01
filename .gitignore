@@ -48,3 +48,12 @@ data/processed/*.json
 .venv/
 __pycache__/
 *.pyc
+
+# Claude Code
+.claude/
+
+# Planning docs (internal)
+plans/
+
+# Python lock
+uv.lock
