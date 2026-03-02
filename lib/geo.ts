@@ -9,9 +9,9 @@ export function latLngToVec3(
   target?: THREE.Vector3,
 ): THREE.Vector3 {
   const phi = (90 - lat) * DEG2RAD
-  const theta = (lng + 180) * DEG2RAD
+  const theta = (90 - lng) * DEG2RAD
 
-  const x = -radius * Math.sin(phi) * Math.cos(theta)
+  const x = radius * Math.sin(phi) * Math.cos(theta)
   const y = radius * Math.cos(phi)
   const z = radius * Math.sin(phi) * Math.sin(theta)
 
