@@ -15,11 +15,14 @@ void main() {
   float zoom = smoothstep(120.0, 400.0, uCamDist);
 
   // Sharper edge when close, softer glow when far
-  float edge = mix(0.75, 0.35, zoom);
+  float edge = mix(0.75, 0.4, zoom);
   float alpha = smoothstep(1.0, edge, dist) * vOpacity;
 
-  // Less emissive when close — avoids bloom blowout in dense clusters
-  float emissive = mix(0.85, 1.2, zoom);
+  // Fade down alpha at distance so additive stacking saturates less
+  alpha *= mix(1.0, 0.55, zoom);
+
+  // Subtle emissive boost — kept modest to avoid blowout in dense clusters
+  float emissive = mix(0.85, 0.95, zoom);
 
   gl_FragColor = vec4(vColor * emissive, alpha);
 }
