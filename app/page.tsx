@@ -8,6 +8,7 @@ import { VesselCard } from '@/components/ui/VesselCard'
 import { ColorLegend } from '@/components/ui/ColorLegend'
 import { FilterPanel } from '@/components/ui/FilterPanel'
 import { MobileHint } from '@/components/ui/MobileHint'
+import { GithubLink } from '@/components/ui/GithubLink'
 
 const GlobeScene = dynamic(() => import('@/components/globe/GlobeScene'), {
   ssr: false,
@@ -26,6 +27,7 @@ export default function Home() {
       <ColorLegend />
       <TimeSlider />
       <MobileHint />
+      <GithubLink />
     </main>
   )
 }
