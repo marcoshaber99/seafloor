@@ -82,7 +82,11 @@ export function StatsOverlay() {
     return { vessels, co2, etsCost }
   }, [binary, filters, companyIndices])
 
-  if (!stats) return null
+  const lastStatsRef = useRef(stats)
+  if (stats) lastStatsRef.current = stats
+  const displayStats = stats ?? lastStatsRef.current
+
+  if (!displayStats) return null
 
   return (
     <div
@@ -99,10 +103,10 @@ export function StatsOverlay() {
           </div>
         </div>
         <div className="flex flex-col gap-3">
-          <AnimatedStat raw={stats.vessels} format={formatCount} unit="" label="vessels" />
-          <AnimatedStat raw={stats.co2} format={formatCO2} unit="" label="CO₂ emissions" />
-          {year === 2024 && stats.etsCost > 0 && (
-            <AnimatedStat raw={stats.etsCost} format={formatEUR} unit="" label="EU ETS exposure" />
+          <AnimatedStat raw={displayStats.vessels} format={formatCount} unit="" label="vessels" />
+          <AnimatedStat raw={displayStats.co2} format={formatCO2} unit="" label="CO₂ emissions" />
+          {year === 2024 && displayStats.etsCost > 0 && (
+            <AnimatedStat raw={displayStats.etsCost} format={formatEUR} unit="" label="EU ETS exposure" />
           )}
         </div>
       </div>

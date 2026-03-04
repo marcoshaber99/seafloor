@@ -12,13 +12,14 @@ const ALL_YEARS = Array.from(
 
 export function usePrefetchYears() {
   const currentYear = useStore((s) => s.year)
+  const isCurrentLoaded = useStore((s) => s.binaries.has(s.year))
 
   useEffect(() => {
-    const { binaries } = useStore.getState()
-    if (!binaries.has(currentYear)) return
+    if (!isCurrentLoaded) return
 
     let cancelled = false
 
+    const { binaries } = useStore.getState()
     const remaining = ALL_YEARS.filter((y) => !binaries.has(y))
     if (remaining.length === 0) return
 
@@ -42,6 +43,7 @@ export function usePrefetchYears() {
           if (cancelled) return
           useStore.getState().setBinary(year, buffer)
           useStore.getState().setIndex(year, index)
+
         } catch {
           // Silently skip failed prefetch — will retry on demand
         }
@@ -50,5 +52,5 @@ export function usePrefetchYears() {
 
     prefetch()
     return () => { cancelled = true }
-  }, [currentYear])
+  }, [currentYear, isCurrentLoaded])
 }
