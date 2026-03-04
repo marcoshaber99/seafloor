@@ -112,10 +112,10 @@ export function FilterPanel() {
   return (
     <div
       ref={panelRef}
-      className="intro-panel pointer-events-none fixed right-3 top-3 z-50 sm:right-6 sm:top-6"
-      style={{ '--intro-delay': '2.2s', '--intro-y': '-8px' } as React.CSSProperties}
+      className="intro-panel pointer-events-none fixed bottom-20 right-3 z-50 sm:bottom-auto sm:right-6 sm:top-6"
+      style={{ '--intro-delay': '2.2s', '--intro-y': '8px' } as React.CSSProperties}
     >
-      <div className="pointer-events-auto">
+      <div className="pointer-events-auto relative">
         {/* Toggle button */}
         <button
           onClick={() => setOpen((o) => !o)}
@@ -147,7 +147,7 @@ export function FilterPanel() {
 
         {/* Panel */}
         {open && (
-          <div className="mt-2 w-64 rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+          <div className="absolute bottom-full right-0 mb-2 w-64 max-w-[calc(100vw-1.5rem)] rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:static sm:mt-2 sm:mb-0">
             {/* Ship Types section */}
             <div className="border-b border-white/[0.06] px-4 py-3">
               <div className="mb-2 flex items-center justify-between">

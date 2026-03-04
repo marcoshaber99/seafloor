@@ -114,7 +114,7 @@ export function TimeSlider() {
         </div>
 
         {/* Year buttons */}
-        <div className="flex items-center gap-0.5 sm:gap-1">
+        <div className="flex items-center gap-1">
           {YEARS.map((y) => {
             const isActive = y === year
             const isLoaded = binaries.has(y)
@@ -123,7 +123,7 @@ export function TimeSlider() {
               <button
                 key={y}
                 onClick={() => setYear(y)}
-                className={`flex flex-col items-center gap-1.5 px-2 py-1.5 rounded-lg transition-all duration-200 sm:px-3.5 ${
+                className={`flex flex-col items-center gap-1.5 px-1.5 py-1.5 rounded-lg transition-all duration-200 sm:px-3.5 ${
                   isActive
                     ? 'bg-white/10 text-white'
                     : 'text-white/30 hover:text-white/60 hover:bg-white/5'

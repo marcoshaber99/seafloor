@@ -3,7 +3,7 @@ import { Github } from 'lucide-react'
 export function GithubLink() {
   return (
     <div
-      className="intro-panel pointer-events-none fixed bottom-4 left-3 z-50 sm:bottom-8 sm:left-6"
+      className="intro-panel pointer-events-none fixed bottom-4 left-3 z-50 hidden sm:bottom-8 sm:left-6 sm:block"
       style={{ '--intro-delay': '2.2s', '--intro-y': '8px' } as React.CSSProperties}
     >
       <a

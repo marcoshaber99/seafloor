@@ -162,7 +162,7 @@ export function SearchBar() {
 
   return (
     <div
-      className="intro-panel pointer-events-none fixed inset-x-0 top-[7.5rem] z-50 flex justify-center sm:top-6"
+      className="intro-panel pointer-events-none fixed inset-x-0 top-[12.5rem] z-50 flex justify-center sm:top-6"
       style={{ '--intro-delay': '1.9s', '--intro-y': '-8px' } as React.CSSProperties}
     >
       {selectionLabel ? (
@@ -205,7 +205,7 @@ export function SearchBar() {
           {open && query.trim().length > 0 && (
             <div
               ref={listRef}
-              className="dark-scroll absolute inset-x-0 top-full mt-1.5 max-h-[360px] overflow-y-auto rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+              className="dark-scroll absolute inset-x-0 top-full mt-1.5 max-h-[280px] overflow-y-auto rounded-2xl border border-white/[0.08] bg-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:max-h-[360px]"
             >
               {results.length > 0 ? (
                 <>

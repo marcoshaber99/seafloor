@@ -42,13 +42,13 @@
   }
 
   .mobile-hint {
-    animation: mobile-hint 7s ease both;
+    animation: mobile-hint 14s ease both;
   }
 }
 
 @keyframes mobile-hint {
-  0%, 40% { opacity: 0; }
-  50% { opacity: 1; }
+  0%, 15% { opacity: 0; }
+  22% { opacity: 1; }
   85% { opacity: 1; }
   100% { opacity: 0; }
 }

@@ -22,6 +22,10 @@ export function CameraController() {
     if (!c) return
     c.mouseButtons.right = 0
     c.touches.three = 0
+
+    const stopRotate = () => useStore.getState().setAutoRotate(false)
+    c.addEventListener('controlstart', stopRotate)
+    return () => c.removeEventListener('controlstart', stopRotate)
   }, [])
 
   useEffect(() => {

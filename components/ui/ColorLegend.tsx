@@ -28,8 +28,8 @@ export function ColorLegend() {
 
   return (
     <div
-      className="intro-panel pointer-events-none fixed bottom-16 right-3 z-50 sm:bottom-24 sm:right-6"
-      style={{ '--intro-delay': '2.0s', '--intro-y': '8px' } as React.CSSProperties}
+      className="intro-panel pointer-events-none fixed right-3 top-3 z-50 sm:bottom-24 sm:right-6 sm:top-auto"
+      style={{ '--intro-delay': '2.0s', '--intro-y': '-8px' } as React.CSSProperties}
     >
       <div className="pointer-events-auto rounded-2xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
         {/* Mode toggle */}

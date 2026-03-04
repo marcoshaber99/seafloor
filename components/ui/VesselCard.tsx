@@ -139,7 +139,7 @@ export function VesselCard() {
     return (
       <div
         ref={cardRef}
-        className="pointer-events-auto fixed top-[11.5rem] right-3 z-50 min-w-[220px] max-w-[calc(100vw-1.5rem)] rounded-xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:top-20 sm:right-6 sm:max-w-[320px]"
+        className="pointer-events-auto fixed top-[16rem] right-3 z-50 min-w-[220px] max-w-[calc(100vw-1.5rem)] rounded-xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:top-20 sm:right-6 sm:max-w-[320px]"
       >
         <div className="flex items-start gap-3">
           <div className="min-w-0 shrink">
@@ -188,7 +188,7 @@ export function VesselCard() {
   return (
     <div
       ref={cardRef}
-      className="pointer-events-auto fixed z-50 min-w-[220px] max-w-[320px] rounded-xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+      className="pointer-events-auto fixed z-50 min-w-[220px] max-w-[calc(100vw-1.5rem)] rounded-xl border border-white/[0.08] bg-white/[0.06] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:max-w-[320px]"
       style={{
         left: clampedPos.x,
         top: clampedPos.y,
