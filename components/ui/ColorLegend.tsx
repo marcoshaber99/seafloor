@@ -85,6 +85,9 @@ function GradientLegend({ mode }: { mode: 'co2' | 'ets' }) {
         <span>{minLabel}</span>
         <span>{maxLabel}</span>
       </div>
+      {mode === 'ets' && (
+        <div className="mt-1 text-[10px] text-white/30">Shown at full ETS rate</div>
+      )}
     </div>
   )
 }

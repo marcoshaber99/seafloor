@@ -175,7 +175,7 @@ export function VesselCard() {
             </div>
             {year === 2024 && etsCost !== null && etsCost > 0 && (
               <div className="mt-1 flex items-baseline justify-between text-xs">
-                <span className="text-white/50">EU ETS Cost</span>
+                <span className="text-white/50">EU ETS Cost <span className="text-[10px] text-white/30">(full rate)</span></span>
                 <span className="font-mono tabular-nums text-white">{formatEUR(etsCost)}</span>
               </div>
             )}
@@ -231,7 +231,7 @@ export function VesselCard() {
           </div>
           {year === 2024 && etsCost !== null && etsCost > 0 && (
             <div className="mt-1 flex items-baseline justify-between text-xs">
-              <span className="text-white/50">EU ETS Cost</span>
+              <span className="text-white/50">EU ETS Cost <span className="text-[10px] text-white/30">(full rate)</span></span>
               <span className="font-mono tabular-nums text-white">{formatEUR(etsCost)}</span>
             </div>
           )}
