@@ -10,6 +10,10 @@ import { latLngToVec3 } from '@/lib/geo'
 
 const _vesselPos = new THREE.Vector3()
 const AUTO_ROTATE_SPEED = (2 * Math.PI * 0.4) / 60
+const MIN_DIST = 120
+const MAX_DIST = 600
+const MIN_ROTATE_SPEED = 0.15
+const MAX_ROTATE_SPEED = 1.0
 
 export function CameraController() {
   const controlsRef = useRef<CameraControls>(null)
@@ -35,8 +39,18 @@ export function CameraController() {
   }, [])
 
   useFrame((_, delta) => {
-    if (!controlsRef.current || animatingRef.current || !autoRotateRef.current) return
-    controlsRef.current.rotate(AUTO_ROTATE_SPEED * delta, 0, false)
+    const c = controlsRef.current
+    if (!c) return
+
+    const dist = c.distance
+    const t = THREE.MathUtils.clamp((dist - MIN_DIST) / (MAX_DIST - MIN_DIST), 0, 1)
+    const speed = THREE.MathUtils.lerp(MIN_ROTATE_SPEED, MAX_ROTATE_SPEED, t)
+    c.azimuthRotateSpeed = speed
+    c.polarRotateSpeed = speed
+
+    if (!animatingRef.current && autoRotateRef.current) {
+      c.rotate(AUTO_ROTATE_SPEED * delta, 0, false)
+    }
   })
 
   useEffect(() => {
